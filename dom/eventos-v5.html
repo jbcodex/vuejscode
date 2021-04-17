@@ -1,0 +1,23 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<div id="app">
+    <p>Título da aula: <b>{{aula}}</b></p>
+    <input v-on:keydown.enter="msg" type="text" v-bind:value="word">
+ 
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            aula:'Eventos no teclado',
+            word:''
+           
+        },
+        methods:{
+          msg(e){
+              this.word = e.target.value
+              alert(this.word)
+          }
+        }
+
+    })
+</script>

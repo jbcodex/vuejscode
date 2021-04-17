@@ -1,0 +1,25 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<div id="app">
+    <p>Título da aula: <b>{{aula}}</b></p>
+    <p>{{contador}}</p>
+    <button v-on:click="somar(3, $event)">Somar</button>
+    
+   
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            aula:'Obtendo dados do evento',
+           contador:0
+        },
+        methods:{
+            somar(e, x){
+                console.log(e, x)
+                this.contador += e / 2
+                this.contador = this.contador - 0.1
+            }
+        }
+
+    })
+</script>

@@ -1,0 +1,15 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<div id="app">
+    <p>Título da aula: {{aula}}</p>
+    <P v-html="linkHtml"></P>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            aula: 'Como imprimir HTML puro',
+            linkHtml: '<a href="https://uol.com.br" target="blank">Uol</a>'
+        },
+
+    })
+</script>

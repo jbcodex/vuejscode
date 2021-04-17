@@ -1,0 +1,33 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<div id="app">
+    <p>Título da aula: <b>{{aula}}</b></p>
+    <p>Mouse X: {{x}} | Mouse Y: {{y}} | Screen X {{lx}}</p>
+    <div  v-on:mousemove="getPosition" style="width: 300px; height: 300px; border:1px solid #069;">
+            <button v-on:click="zerar">ZERAR</button>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            aula:'Obtendo dados do evento',
+            x:0,
+            y:0,
+            lx:0
+        },
+        methods:{
+            getPosition(e){
+               this.x = e.clientX
+               this.y = e.clientY
+               this.lx = e.layerX
+               console.log(e)
+            },
+            zerar(){
+                this.x = 0
+                this.y = 0
+                this.lx = 0
+            }
+        }
+
+    })
+</script>
