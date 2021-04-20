@@ -4,8 +4,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state:{
         dataArray:[],
-        isEdit:false,
-        dataEdit:{}
+        dataEdit:{},
+        edditingUserIndex:null
     },
     getters:{
         validEmail(state) {
@@ -18,11 +18,12 @@ export default new Vuex.Store({
             state.dataArray.push(payload)
         },
         addEditContact(state, payload){
-            state.dataEdit = payload
+            state.dataEdit = payload.data
+            state.edditingUserIndex = payload.index
         },
 
-        setSaveOrEditForm(state, payload){
-            state.isEdit = payload
+        saveEditingContact(state, payload){
+           state.dataArray[state.edditingUserIndex] = payload
         },
        
        

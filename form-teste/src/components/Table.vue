@@ -1,9 +1,9 @@
 <template>
+
     <v-simple-table class="mt-2 tb">
       <template v-slot:default>
           <thead>
             <tr class="light-gray darken-1">
-              <th class="black--text">Id</th>
               <th class="black--text">Nome</th>
               <th class="black--text">E-mail</th>
               <th class="black--text">Idade</th>
@@ -11,33 +11,42 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="data in dataArray" :key="data.id">
-              <td>{{data.idF}}</td>
-              <td>{{data.nameF}}</td>
-              <td>{{data.emailF}}</td>
-              <td>{{data.ageF}}</td>
+            <tr v-for="(data, i) in contacts" :key="data.id">
+              <td>{{data.name}}</td>
+              <td>{{data.email}}</td>
+              <td>{{data.age}}</td>
               <td>
-                 <router-link to="/Editar"><v-icon small @click="setUserData(data)">mdi-pencil</v-icon></router-link>
+               <v-icon small @click="edit(data, i)">mdi-pencil</v-icon>
                   
               </td>
             </tr>
           </tbody>
       </template>
     </v-simple-table>
+
 </template>
 
 <script>
-import bus from '../bus'
+import { mapMutations } from 'vuex'
 export default {
+  
   computed:{
-      dataArray(){
-        return this.$store.state.dataArray
+      contacts(){
+        return this.$store.state.dataArray.map((e) =>{
+          return{
+            name:e.name,
+            email:e.email,
+            age:e.age
+          }
+        })
       }
   },
 
   methods:{
-    setUserData(data){
-       bus.userEdit(data)
+    ...mapMutations(['addEditContact']),
+    edit(data, i){
+      this.addEditContact({data: data, index: i})
+      this.$router.push({path: '/Editar'})
     }
   }
 }

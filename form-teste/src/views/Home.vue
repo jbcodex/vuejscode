@@ -1,30 +1,43 @@
 <template>
-  <v-app id="app">
     <v-container class="content">
-        <Form>
-        </Form>
+        <Form @setData="setData" :newContact="newContact" />
         <Table>
         </Table>
     </v-container>
-  </v-app>
 </template>
 
 <script>
-
 import Form from "@/components/Form.vue";
 import Table from "@/components/Table.vue";
+import swal from "sweetalert";
+import { mapMutations } from 'vuex';
 export default {
-  
    components:{
         Form, Table
     },
     data(){
       return{
-        
+          newContact:{
+              name:'',
+              email:'',
+              age:null
+          },
       }
+    },
+    methods:{
+      ...mapMutations(['addContact', 'savingEditingContact', 'setSaveOrEditForm']),
+      setData(payload){
+        console.log('emit', payload.name)
+        this.addContact(payload) 
+        swal('Feito!', 'Contato '+payload.name+' inserido!', 'success')
+        this.allowButton = false
+        this.newContact ={}
+      }
+    }
+    
   }
   
-  }
+  
 </script>
 <style>
 #app {
@@ -38,7 +51,7 @@ export default {
 .content {
   display: flex;
   justify-content: center;
-  margin-top: 270px;
+  margin-top: 100px;
 }
 
 .panel {

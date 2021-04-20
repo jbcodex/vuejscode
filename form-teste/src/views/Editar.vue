@@ -1,30 +1,33 @@
 <template>
-  <v-app id="app">
+  
     <v-container class="content">
-     <FormEdit>
-     
-     </FormEdit>
+      <FormEdit :contactSelected="contactSelected" @editContact="editContact"/>
     </v-container>
-  </v-app>
+  
 </template> 
 <script>
+import { mapMutations } from 'vuex'
 import FormEdit from '@/components/FormEdit.vue'
 export default {
   components:{
     FormEdit, 
   },
-  data(){
-      return{
-        userEdit:null
-      }
+ computed:{
+   contactSelected(){
+     return this.$store.state.dataEdit
+   }
   },
+
   methods:{
-    alt(){
-      alert('Oi')
-    }
+     ...mapMutations(['saveEditingContact']),
+     editContact(payload){
+       this.saveEditingContact(payload)
+      this.$router.push({path: '/'})
+     },
   }
+ }
   
   
-}
+
 </script>
 
