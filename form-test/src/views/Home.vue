@@ -27,16 +27,13 @@ export default {
     methods:{
       ...mapMutations(['addContact', 'savingEditingContact', 'setSaveOrEditForm']),
       setData(payload){
-        console.log('emit', payload.name)
         this.addContact(payload) 
         swal('Feito!', 'Contato '+payload.name+' inserido!', 'success')
-        this.allowButton = false
-        this.newContact ={}
+        this.newContact = {}
       }
     }
     
   }
-  
   
 </script>
 <style>

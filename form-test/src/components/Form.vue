@@ -40,6 +40,19 @@
 <script>
 import { mapMutations } from 'vuex';
 export default {
+  filter:{
+    charMask (especialChar){
+        especialChar = especialChar.replace('/[áàãâä]/ui', 'a');
+        especialChar = especialChar.replace('/[éèêë]/ui', 'e');
+        especialChar = especialChar.replace('/[íìîï]/ui', 'i');
+        especialChar = especialChar.replace('/[óòõôö]/ui', 'o');
+        especialChar = especialChar.replace('/[úùûü]/ui', 'u');
+        especialChar = especialChar.replace('/[ç]/ui', 'c');
+        especialChar = especialChar.replace('/[^a-z0-9]/i', '_');
+        especialChar = especialChar.replace('/_+/', '_'); //
+        return especialChar;
+}
+  },
   props:{
     newContact:{
       type:Object
@@ -51,6 +64,8 @@ export default {
             valid: false,
             nameRules: [
                 v => (!!v && v.length > 4) || "Obrigatório mínimo 5 caracteres",
+                v => (!!v) || 'Nome é obrigatório',
+                
             ],
             emailRules: [
                 v => (!!v) || "Email obrigatório",
@@ -64,27 +79,32 @@ export default {
     },
 
     methods:{
-        ...mapMutations(['addContact']),
-        allow() {
-            if (this.newContact.name.length >= 5 && this.validEmail(this.newContact.email) && this.newContact.age >= 1){
-                    this.allowButton = true;
-                }
-
-            if (this.newContact.age == 0 || this.newContact.name == "" || this.newContact.name.length < 5 || !this.validEmail(this.newContact.email)){
-                this.allowButton = false;
-            }
-        },
-        validEmail(mail) {
-            var re = /^(([^<=>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(mail);
-        },
-        async saveContact(){
-          if(this.$refs.form.validate()){
-            const contact = this.newContact
-            await this.$emit('setData', contact)
+      ...mapMutations(['addContact']),
+      allow() {
+          if (
+            this.newContact.name.length >= 5 && 
+            this.validEmail(this.newContact.email) && 
+            this.newContact.age >= 1)
+          {
+            this.allowButton = true;
+          }else{
+            this.allowButton = false;
           }
-         
+      },
+      validEmail(mail) {
+          var re = /^(([^<=>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return re.test(mail);
+      },
+      async saveContact(){
+        if(this.$refs.form.validate()){
+          const contact = this.newContact
+          await this.$emit('setData', contact)    
+             this.allowButton = false
+             this.$refs.form.resetValidation()
         }
+       
+      },
+      
     }
 }
 </script>
@@ -101,8 +121,7 @@ export default {
 
 .swal-button {
   font-family: "Lato", sans-serif;
-  background-color: #87bfe4;
-  font-size: 15px;
+
 }
 
 .swal-text {

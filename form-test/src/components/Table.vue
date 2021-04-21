@@ -45,6 +45,7 @@ export default {
   methods:{
     ...mapMutations(['addEditContact']),
     edit(data, i){
+      this.$emit('oldName', data.name)
       this.addEditContact({data: data, index: i})
       this.$router.push({path: '/Editar'})
     }

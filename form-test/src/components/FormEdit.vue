@@ -40,7 +40,7 @@
     </div>
 </template>
 <script>
-
+import swal from "sweetalert";
 export default {
   props:{
       contactSelected:{
@@ -49,6 +49,7 @@ export default {
   },
   data(){
     return{
+      oldN:this.oldName,
       allowButton: false,
       nameRules: [
           v => (!!v && v.length > 4) || "Obrigatório mínimo 5 caracteres",
@@ -60,27 +61,33 @@ export default {
               v
           ) || "E-mail inválido!",
       ],
-      ageRules: [v => (!!v) || "Idade obrigatória!"],
+      ageRules: [
+        v => (!!v) || "Idade obrigatória!"
+        ]
       
     }
   },
    methods:{
      allow(){
-         if (this.contactSelected.name.length >= 5 && this.validEmail(this.contactSelected.email) && this.contactSelected.age >= 1){
-                    this.allowButton = true;
-                }
-
-            if (this.contactSelected.age == 0 || this.contactSelected.name == "" || this.contactSelected.name.length < 5 || !this.validEmail(this.contactSelected.email)){
-                this.allowButton = false;
-            }
+         if (
+            this.contactSelected.name.length >= 5 && 
+            this.validEmail(this.contactSelected.email) && 
+            this.contactSelected.age >= 1)
+          {
+            this.allowButton = true;
+          }else{
+            this.allowButton = false;
+          }
      },
      validEmail(mail) {
             var re = /^(([^<=>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(mail);
      },
      edit(){
-      
-         this.$emit('editContact', this.contactSelected)
+       
+          swal('Feito!', 'Contato '+this.contactSelected.name+' editado!', 'success')
+          this.$emit('editContact', this.contactSelected)
+  
      }
   }
 }
@@ -96,6 +103,28 @@ export default {
   .titleForm{
     display: flex;
   }
+  .swal-title {
+  font-family: "Lato", sans-serif;
+  font-size: 1.4rem;
+}
 
-   
+.swal-button {
+  font-family: "Lato", sans-serif;
+  background-color: #87bfe4;
+  font-size: 15px;
+}
+
+.swal-text {
+  font-family: "Lato", sans-serif;
+  color: #61534e;
+}
+.swal-modal {
+  width: 350px;
+  
+}
+.swal-footer {
+  background-color: rgb(245, 248, 250);
+  margin-top: 10px;
+  border-top: 1px solid #e9eef1;
+}
 </style>

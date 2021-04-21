@@ -1,7 +1,7 @@
 <template>
   
     <v-container class="content">
-      <FormEdit :contactSelected="contactSelected" @editContact="editContact"/>
+      <FormEdit :contactSelected="contactSelected" @editContact="editContact" />
     </v-container>
   
 </template> 
@@ -12,6 +12,7 @@ export default {
   components:{
     FormEdit, 
   },
+  
  computed:{
    contactSelected(){
      return this.$store.state.dataEdit
